@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTable, HeaderGroup, Column, Row, Cell } from 'react-table'
 
-import { DsBlockObj, TxBlockObj, TransactionObj, PendingTxnResult } from '@zilliqa-js/core/src/types'
+import { DsBlockObj, TxBlockObj, TransactionObj, TransactionStatus } from '@zilliqa-js/core/src/types'
 
 import './DisplayTable.css'
 
@@ -12,9 +12,9 @@ interface IDisplayTableParams<T extends object> {
 }
 
 // React Table for DSBlocks, TxBlocks and TransactionObj on Dashboard 
-const DisplayTable: React.FC<IDisplayTableParams<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>> =
+const DisplayTable: React.FC<IDisplayTableParams<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>> =
   ({ columns, data, processMap }) => {
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>({
+    const { getTableProps, headerGroups, rows, prepareRow } = useTable<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>({
       columns,
       data,
     })
@@ -23,7 +23,7 @@ const DisplayTable: React.FC<IDisplayTableParams<DsBlockObj | TxBlockObj | Trans
       <div className='display-table'>
         <table {...getTableProps()}>
           <thead>
-            {headerGroups.map((headerGroup: HeaderGroup<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>) => (
+            {headerGroups.map((headerGroup: HeaderGroup<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()} id={column.id}>
@@ -34,11 +34,11 @@ const DisplayTable: React.FC<IDisplayTableParams<DsBlockObj | TxBlockObj | Trans
             ))}
           </thead>
           <tbody>
-            {rows.map((row: Row<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>) => {
+            {rows.map((row: Row<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>) => {
               prepareRow(row)
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map((cell: Cell<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>) => {
+                  {row.cells.map((cell: Cell<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>) => {
                     if (processMap) {
                       const procFunc = processMap.get(cell.column.id)
                       if (procFunc != null)

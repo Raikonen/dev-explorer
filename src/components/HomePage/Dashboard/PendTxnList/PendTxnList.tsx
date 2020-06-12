@@ -3,7 +3,7 @@ import { Card, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 import { NetworkContext } from 'src/services/networkProvider'
 import DisplayTable from '../../DisplayTable/DisplayTable'
-import { PendingTxnResult } from '@zilliqa-js/core/src/types'
+import { PendingTxns } from '@zilliqa-js/core/src/types'
 import { refreshRate } from 'src/constants'
 
 import './PendTxnList.css'
@@ -36,7 +36,7 @@ const PendTxnList: React.FC = () => {
 
   useEffect(() => { setData(null) }, [nodeUrl]) // Unset data on url change
 
-  const [data, setData] = useState<PendingTxnResult[] | null>(null)
+  const [data, setData] = useState<PendingTxns | null>(null)
 
   const columns = useMemo(
     () => [{
@@ -56,7 +56,7 @@ const PendTxnList: React.FC = () => {
     let isCancelled = false
     if (!dataService) return
 
-    let receivedData: PendingTxnResult[]
+    let receivedData: PendingTxns
     const getData = async () => {
       try {
         receivedData = await dataService.getLatest5PendingTransactions()
@@ -88,7 +88,7 @@ const PendTxnList: React.FC = () => {
         {data
           ? data.length > 0
             ? <div className='pendtxlist-table'>
-                <DisplayTable columns={columns} data={data} processMap={processMap}/>
+                <DisplayTable columns={columns} data={data.Txns} processMap={processMap}/>
               </div>
             : 'No Pending Transactions'
           : <Spinner animation="border" role="status" />

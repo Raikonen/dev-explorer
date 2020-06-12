@@ -101,7 +101,7 @@ const TxBlockDetailsPage: React.FC = () => {
     const getData = async () => {
       try {
         setIsLoading(true)
-        receivedData = await dataService.getTransactionsDetails(data.txnHashes.slice(pageIndex * 10, pageIndex * 10 + 10))
+        receivedData = await dataService.getTransactionsWithHash(data.txnHashes.slice(pageIndex * 10, pageIndex * 10 + 10))
 
         if (receivedData) {
           setTransactionData(receivedData)

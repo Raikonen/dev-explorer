@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react'
 import { Pagination, Row as BRow, Col as BCol, Spinner } from 'react-bootstrap'
 import { useTable, HeaderGroup, Column, Row, Cell, usePagination, useAsyncDebounce } from 'react-table'
 
-import { DsBlockObj, TxBlockObj, TransactionObj, PendingTxnResult } from '@zilliqa-js/core/src/types'
+import { DsBlockObj, TxBlockObj, TransactionObj, TransactionStatus } from '@zilliqa-js/core/src/types'
 
 import './ViewAllTable.css'
 
@@ -16,7 +16,7 @@ interface IViewAllTableParams<T extends object> {
 }
 
 // React Table for DSBlocks, TxnBlocks and TransactionObj on Dashboard 
-const ViewAllTable: React.FC<IViewAllTableParams<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>> =
+const ViewAllTable: React.FC<IViewAllTableParams<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>> =
   ({ columns, data, isLoading, fetchData, pageCount: controlledPageCount, processMap }) => {
 
     const { getTableProps,
@@ -31,7 +31,7 @@ const ViewAllTable: React.FC<IViewAllTableParams<DsBlockObj | TxBlockObj | Trans
       nextPage,
       previousPage,
       // Get the state from the instance
-      state: { pageIndex } } = useTable<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>({
+      state: { pageIndex } } = useTable<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>({
         columns,
         data,
         initialState: { pageIndex: 0 },
@@ -104,7 +104,7 @@ const ViewAllTable: React.FC<IViewAllTableParams<DsBlockObj | TxBlockObj | Trans
           {isLoading ? <div className='spinner'><Spinner animation="border" variant="secondary" /></div> : null}
           <table {...getTableProps()}>
             <thead>
-              {headerGroups.map((headerGroup: HeaderGroup<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>) => (
+              {headerGroups.map((headerGroup: HeaderGroup<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                     <th {...column.getHeaderProps()} id={column.id}>
@@ -115,11 +115,11 @@ const ViewAllTable: React.FC<IViewAllTableParams<DsBlockObj | TxBlockObj | Trans
               ))}
             </thead>
             <tbody style={isLoading ? { opacity: '50%' } : {}}{...getTableBodyProps()}>
-              {page.map((row: Row<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>) => {
+              {page.map((row: Row<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>) => {
                 prepareRow(row)
                 return (
                   <tr {...row.getRowProps()}>
-                    {row.cells.map((cell: Cell<DsBlockObj | TxBlockObj | TransactionObj | PendingTxnResult>) => {
+                    {row.cells.map((cell: Cell<DsBlockObj | TxBlockObj | TransactionObj | TransactionStatus>) => {
                       if (processMap) {
                         const procFunc = processMap.get(cell.column.id)
                         if (procFunc != null)

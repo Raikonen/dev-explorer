@@ -75,7 +75,7 @@ const TxnsPage: React.FC = () => {
 
         let slicedTxnHashes = txnHashes.slice(pageIndex * 10, pageIndex * 10 + 10)
         if (slicedTxnHashes) {
-          txnBodies = await dataService.getTransactionsDetails(slicedTxnHashes)
+          txnBodies = await dataService.getTransactionsWithHash(slicedTxnHashes)
           setData(txnBodies)
           setIsLoading(false)
         }
